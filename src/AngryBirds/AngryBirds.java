@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 public class AngryBirds extends Applet implements KeyListener, MouseListener{
 
 int[] foo = {1,2,3,4,5};
+boolean[] bar = {true,false,true,true};
 	public AngryBirds() throws HeadlessException {
 		// TODO Auto-generated constructor stub
 		
