@@ -12,7 +12,7 @@ public class AngryBirds extends Applet implements KeyListener, MouseListener{
 
 int[] foo = {1,2,3,4,5};
 boolean[] bar = {true,false,true,true};
-double fooBar = {2.3,2.4,2.5};
+double fooBar = {2.3,2.4,2.5,2.7};
 	public AngryBirds() throws HeadlessException {
 		// TODO Auto-generated constructor stub
 		
