@@ -1,0 +1,21 @@
+import java.awt.*;
+
+public class Pig {
+
+	   public int recW;
+	   public int recH;
+	   public double xpos;				
+	   public double ypos;	
+	   public boolean isAlive;
+	   
+	   public Rectangle rec;
+
+	   
+	public Pig(int xpos, int ypos) {
+		recW=20;
+		recH=20;
+		rec=new Rectangle((int)xpos, (int)ypos, recW, recH);
+	}
+	
+	
+}
