@@ -1,0 +1,152 @@
+package AngryBirds;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class AngryBirds extends Applet implements Runnable, KeyListener, MouseListener{
+
+public Bird birds[];
+public Pig pigs[];
+public Image fieldPic;
+public Image birdPic;
+public Image pigPic;
+public Image plankPic;
+public Image slingshotPic;
+public Image bentSlingshotPic;
+public Thread thread;
+
+
+public Graphics bufferGraphics;
+public Image offscreen;
+
+//public Plank planks[];
+
+	public AngryBirds()
+	{
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+		public void init() 
+	{
+			// TODO Auto-generated method stub
+			super.init();
+			birds= new Bird[3];
+			pigs = new Pig[3];
+			//planks = new Plank[20];
+			//slingshot = new Slingshot;
+			fieldPic = getImage(getDocumentBase(), "grassyfield.jpg");
+			birdPic = getImage(getDocumentBase(), "bird.png");
+			pigPic = getImage(getDocumentBase(), "basicpig.png");
+			plankPic = getImage(getDocumentBase(), "plank.png");
+			slingshotPic = getImage(getDocumentBase(), "slingshot.png");
+			bentSlingshotPic = getImage(getDocumentBase(), "bentslingshot.png");
+			
+			for(int x=0; x<birds.length; x++)
+		      {
+		         birds[x] = new Bird(100,600);
+		      }
+		      for(int i=0; i<pigs.length; i++)
+		      {
+		         pigs[i] = new Pig(900,600);
+		      }
+		      /*for(int z=0; z<planks.length; z++)
+		      {
+		         planks[z] = new Plank(planks[z].xpos,planks[z].ypos,planks[z].width,planks[z].height);
+		      }*/
+		        
+		   	//set applet width and color
+		      setSize(1000,700);					// set the width of the applet window to 800 pixels by 600 pixels
+		      
+		      offscreen = createImage(1000,700);
+		      bufferGraphics = offscreen.getGraphics(); 
+		   	//construct thread and start it
+		      thread = new Thread(this);  		//constructs a new thread
+		      thread.start();						//starts the thread
+		}
+	@Override
+		public void paint(Graphics g) 
+		{
+			// TODO Auto-generated method stub
+			super.paint(g);
+			bufferGraphics.clearRect(0,0,1000,700);
+		      bufferGraphics.drawImage(fieldPic, 0, 0, 1000, 700, this);
+		      for(int x=0; x< birds.length; x++)
+		      {
+		            bufferGraphics.drawImage(birdPic, (int)(birds[x].xpos), (int)(birds[x].ypos), birds[x].recW, birds[x].recH, this);
+		            //System.out.println("student"+ student[x].xpos+" , " +student[x].ypos);
+		         
+		      }
+		      for(int i=0; i< pigs.length; i++)
+		      {
+		            bufferGraphics.drawImage(pigPic, (int)(pigs[i].xpos), (int)(pigs[i].ypos), pigs[i].recW, pigs[i].recH, this);
+		            //System.out.println("student"+ student[x].xpos+" , " +student[x].ypos);   
+		      }
+		      g.drawImage(offscreen,0,0,this);
+		}//paint
+	public void update (Graphics g)
+	   {
+	      paint(g);
+	   }
+	public void run() 
+	{
+		// TODO Auto-generated method stub
+		while(true)
+	      {
+	         repaint();				//call paint and redraw
+	         try 
+	         {
+	            thread.sleep(100);
+	         }
+	   catch (Exception e){ }
+	      }//while
+
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<5;i++){
+			
+		}
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
