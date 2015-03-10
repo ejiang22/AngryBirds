@@ -1,0 +1,54 @@
+import java.awt.Rectangle;
+
+public class Bird {
+
+	   public int recW;
+	   public int recH;
+	   public int timeInAir;
+	   public double initdx, initdy;
+	   public double xpos;				
+	   public double ypos;	
+	   public double base, height, angle, dx, dy;
+	   public double expos, eypos;
+	   
+	public Bird(int xpos, int ypos) {
+		recW=20;
+		recH=20;
+	}
+	
+	public void moveToPoint(int a, int b)
+	   {
+	      expos=a;
+	      eypos=b;
+	      
+	      base=expos-xpos;
+	      height=eypos-ypos;
+	      
+	      angle = Math.atan(height/base);
+	      
+	      dy = Math.sin(angle)*8.;
+	      dx =Math.cos(angle)*8.;
+	         
+	      if(expos<xpos)
+	      {
+	         dx=-1*dx;
+	         dy=-1*dy;      
+	      }
+	   }
+   public void move()
+	   {
+	   	  dx= .85*dx;
+	   	  dy= initdy -9.8*timeInAir;
+	   	  timeInAir++;
+	   			  
+	      xpos = xpos + dx;
+	      ypos = ypos + dy;
+	       
+	      if (ypos>700){
+	    	  dy=-dy;
+	      }
+	      
+	       Rectangle rec = new Rectangle ((int)xpos,(int)ypos,recW,recH);    
+	   }
+	
+}
