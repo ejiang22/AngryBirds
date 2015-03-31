@@ -1,0 +1,123 @@
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+
+
+public class AngryBirds extends Applet implements KeyListener, MouseListener, MouseMotionListener, Runnable{
+
+public Bird redBird;
+public Thread thread;
+public Image birdPic;
+public boolean clicked;
+
+public int mousex,mousey;
+public Rectangle mouseRec;
+
+public Graphics bufferGraphics;
+public Image offscreen;
+
+	public void init() {
+		offscreen=createImage(1200,700);
+		bufferGraphics= offscreen.getGraphics();
+		
+		mouseRec=new Rectangle(-1,-1,1,1);
+		addMouseMotionListener(this);
+	    addMouseListener(this);
+			
+		redBird= new Bird(50,650);
+		setSize(1200,700);
+		setBackground(Color.WHITE);
+			
+		birdPic= getImage(getDocumentBase(), "bird.png");
+		thread = new Thread(this);  
+	    thread.start();
+	}
+		
+	public void checkClick(){
+		if(clicked==true){
+			redBird.fired=true;
+			redBird.moveToPoint(mousex, mousey);
+		}
+	
+	}
+		
+	public void moveEverything(){
+		redBird.move();
+	}
+		
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		bufferGraphics.clearRect(0,0,1200,700);
+		bufferGraphics.drawImage(birdPic, (int)redBird.xpos, (int)redBird.ypos, 50, 50, this);
+		g.drawImage(offscreen,0,0,this);
+			
+		//super.paint(g);
+	}
+	
+	public void update (Graphics g) {
+	    paint (g);
+	}
+	  
+	public void run() {
+		
+		while(true) {	
+			repaint();
+			moveEverything();
+			checkClick();
+			try {
+				thread.sleep(20);
+			}
+			catch (Exception e){ }
+		}
+	}
+		
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("clicked");
+	}
+	
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("entered");
+	}
+	
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("excited");
+	}
+	
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		clicked=true;
+		System.out.println("pressed");
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		 //mouseRec= new Rectangle( e.getX(),e.getY(),1,1);
+		clicked=false;
+		 System.out.println("released");	
+	}
+	public void mouseMoved(MouseEvent e) {   
+		  mousex = e.getX();
+		  mousey = e.getY();
+		  
+	}
+
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+}
