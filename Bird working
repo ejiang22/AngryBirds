@@ -1,0 +1,76 @@
+import java.awt.*;
+
+public class Bird {
+
+	   public int recW;
+	   public int recH;
+	   public boolean inAir=false;
+	   public boolean fired=false;
+	   public boolean landed=false;
+	   public int timeInAir;
+	   public double xpos;				
+	   public double ypos;	
+	   public double base, height, angle, dx, dy;
+	   public double expos, eypos;
+	   public int startxpos;
+	   public int startypos;
+	   public double speed=1;
+	   public Rectangle rec;
+	   
+	public Bird(int sxpos, int sypos) {
+		recW=20;
+		recH=20;
+		startxpos=sxpos;
+		startypos=sypos;
+		xpos=startxpos;
+		ypos=startypos;
+		rec=new Rectangle((int)xpos, (int)ypos, recW, recH);
+	}
+	
+	public void moveToPoint(int a, int b, double s)
+	   {
+			speed=s;
+	      expos=a;
+	      eypos=b;
+	      
+	      base=expos-xpos;
+	      height=eypos-ypos;
+	      
+	      angle = Math.atan(height/base);
+	      
+	      dy = Math.sin(angle)*15*speed;
+	      dx = Math.cos(angle)*10*speed;
+	         
+	      if(expos<xpos)
+	      {
+	         dx=-1*dx;
+	         dy=-1*dy;      
+	      }
+	   }
+	
+	
+   public void move()
+	   {
+	   if(fired==true&&landed==false){
+	   	  dx= 10-.5*dx;
+	   	  dy= dy+.2;
+	   }
+	   
+	   	  if(inAir==true){
+	   	  timeInAir++;
+	   	  }
+	   		
+	      xpos = xpos + dx;
+	      ypos = ypos + dy;
+	       
+	      if (ypos>650){
+	    	  landed=true;
+	    	  dy=0;
+	    	  dx=0;
+	    	 
+	      }
+	      
+	        rec = new Rectangle ((int)xpos,(int)ypos,recW,recH);    
+	   }
+	
+}
