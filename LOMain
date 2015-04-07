@@ -1,0 +1,173 @@
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.PixelGrabber;
+
+
+public class AngryBirds extends Applet implements KeyListener, MouseListener, MouseMotionListener, Runnable{
+
+public Bird redBird;
+public Pig pig1;
+public Money money;
+public Thread thread;
+public Image homescreenPic;
+public Image birdPic;
+public Image moneyPic;
+public int total = 0;
+public int increment = 100;
+public boolean clicked;
+public boolean play=false;
+public int mousex,mousey;
+public Rectangle mouseRec;
+
+public Rectangle playbutton;
+
+public Graphics bufferGraphics;
+public Image offscreen;
+
+	public void init() {
+		offscreen=createImage(1200,700);
+		bufferGraphics= offscreen.getGraphics();
+		
+		mouseRec=new Rectangle(-1,-1,1,1);
+		addMouseMotionListener(this);
+	    addMouseListener(this);
+	    
+	    playbutton=new Rectangle(300,500,120,70)
+			
+		redBird= new Bird(50,650);
+		pig1= new Pig(1000, 650);
+		money= new Money((int)pig1.xpos, (int)pig1.ypos);
+		setSize(1200,700);
+		setBackground(Color.WHITE);
+		
+		homescreenPic = getImage(getDocumentBase(), "background.png");
+		birdPic= getImage(getDocumentBase(), "bird.png");
+		moneyPic= getImage(getDocumentBase(), "money.jpg");
+		thread = new Thread(this);  
+	    thread.start();
+	}
+		
+	public void checkClick(){
+		if(clicked==true){
+			redBird.fired=true;
+			redBird.moveToPoint(mousex, mousey);
+		}
+	
+	}
+	public void addMoney()
+	{
+		total= total + increment;
+		money.isAlive = false;
+	}
+	public void moveEverything(){
+		redBird.move();
+	}
+	public void checkIntersections()
+	{
+		if(redBird.rec.intersects(pig1.rec))
+		{
+			pig1.isAlive=false;
+			money.isAlive = true;
+		}
+	}
+	
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		bufferGraphics.clearRect(0,0,1200,700);
+		if(play==false)
+		{
+			bufferGraphics.drawImage(homescreenPic, 0, 0, 1200, 700, this);
+		}
+		if(play==true)
+		{
+			bufferGraphics.drawImage(birdPic, (int)redBird.xpos, (int)redBird.ypos, 50, 50, this);
+			if(pig1.isAlive==true)
+			{
+				bufferGraphics.drawImage(pigPic, (int)pig1.xpos, (int)pig1.ypos, 50, 50, this);
+			}
+			if(money.isAlive==true)
+			{
+				bufferGraphics.drawImage(moneyPic, (int)pig1.xpos, (int)pig1.ypos, 50, 50, this);
+			}
+			bufferGraphics.drawString("Score: " + total, 500, 50);
+		}
+		g.drawImage(offscreen,0,0,this);
+			
+		//super.paint(g);
+	}
+	
+	public void update (Graphics g) {
+	    paint (g);
+	}
+	  
+	public void run() {
+		
+		while(true) {	
+			repaint();
+			moveEverything();
+			checkClick();
+			try {
+				thread.sleep(20);
+			}
+			catch (Exception e){ }
+		}
+	}
+		
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		mouseX = e.getX();
+	    mouseY = e.getY();
+	    if(playbutton.contains(e.getX(), e.getY()) && play==false)
+	    {
+	    	play=true;
+	    }
+	    if(money.rec.contains(e.getX(), e.getY())&& money.isAlive==true)
+	    {
+	    	addMoney();
+	    }
+	}
+	
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		clicked=true;
+		System.out.println("pressed");
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		 //mouseRec= new Rectangle( e.getX(),e.getY(),1,1);
+		clicked=false;
+		 System.out.println("released");	
+	}
+	public void mouseMoved(MouseEvent e) {   
+		  mousex = e.getX();
+		  mousey = e.getY();
+		  
+	}
+
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub	
+	}
+	
+}
